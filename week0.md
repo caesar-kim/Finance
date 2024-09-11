@@ -21,7 +21,7 @@
     - 자연어 처리
 ## 2장. 머신러닝 모델 개발
 
-    - 머신러닝에서 파이썬이 가장 지배적인 프로그래밍 언어.
+  - 머신러닝에서 파이썬이 가장 지배적인 프로그래밍 언어.
   - 머신러닝에서 주로 사용하는 파이썬 패키지
     - 데이터 표현: NumPy, Pandas
     - 머신러닝, 통계분석: SciPy, Scikit-learn, StatsModels, Keras, Theano, TensorFlow
