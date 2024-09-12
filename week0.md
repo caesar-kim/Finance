@@ -161,7 +161,8 @@ data = np.random.random((1000, 10))
 Y = np.random.randint(2, size=(1000, 1))
 model = Sequential()
 ```
-- 
+    - 모델 생성 - 신경망 구조
+        -     
 ## 4장. 지도학습: 모델 및 개념
 
 
