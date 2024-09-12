@@ -144,6 +144,24 @@
             - 배치 크기가 클수록 메모리 공간 많이 필요.
      
 ### 3.2. 인공신경망 모델 생성
+- 케라스 및 머신러닝 패키지 설치
+    - 사용자 친화적인 딥러닝 파이썬 라이브러리.
+    - 텐서플로와 테아노 같은 복잡한 수치 계산 엔진을 감싸는 wrapper에 불과하다.
+    - 그래서 먼저 텐서플로와 테아노를 설치해야 함.
+```python
+# 케라스의 패키지 가져오기
+from Keras.models import Sequential
+from Keras.layers import Dense
+import numpy as np
+
+# 데이터 불러오기
+# 넘파이 모듈로 임의의 데이터와 분류 생성하기.
+# (1000, 10) 크기 데이터 정렬을 먼저 만들고, 0과 1로 이루어진 (1000, 1)  크기의 분류 정렬을 만든다.
+data = np.random.random((1000, 10))
+Y = np.random.randint(2, size=(1000, 1))
+model = Sequential()
+```
+- 
 ## 4장. 지도학습: 모델 및 개념
 
 
