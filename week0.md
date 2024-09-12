@@ -605,7 +605,8 @@ from sklearn.ensemble import ExtraTreesRegressor
 model = ExtraTreesRegressor()
 model.fit(X, Y)
 ```
-- 어답티브 부스팅(에이다 부스팅)
+- 어답티브 부스팅(에이다 부스팅)``````
+- 
 - 경사 부스팅 방법
 9. 인공신경망 모델
 
