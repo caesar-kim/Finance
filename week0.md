@@ -670,6 +670,30 @@ model.fit(X, Y)
         - 은닉층 hidden_layer_sizes
             - 층과 노드 수. i번째 요소는 i번째 은닉층의 뉴런 수를 나타냄.
         - 활성화 함수 activation
+            - 은닉층의 활성화 함수. sigmoid, relu, tanh 등 사용 가능.
+    - 심층 신경망
+        - 은닉층이 하나 이상 있는 인공 신경망.
+        - 심층 신경망 구현을 위해서 케라스 라이브러리 사용.
+        - 사이킷런의 MLPClassifier, MLPRegressor와 비슷하게 케라스에는 KerasClassifier, KerasRegressor 모듈이 있음.
+        - 금융 분야에서는 주로 시계열 예측을 하는데, 과거 내용 기반으로 예측하는 것.
+            - 시계열 예측 문제에 순환신경망RNN 같은 일부 심층 신경망 바로 사용 가능.
+    - 장단점
+        - 변수 간 비선형 관계를 잘 나타내는 것. 쉽게 학습하고 큰 데이터셋에서 나오는 막대한 양의 입력 특성을 잘 다룸.
+        - 단점은 모델의 해석성. 이는 모델 결정에 매우 중요한 요소.
+        - 문제 해결에 적합한 구조/알고리즘 선택이 어렵다.
+        - 많은 연산이 필요해 훈련 시간이 길다.
+    - 금융에서 지도학습에 인공신경망 사용
+        - 선형, 로지스틱 같은 단순 모델 적합화하려면 굳이 인공신경망 사용할 필요는 없음.
+        - 복잡한 데이터셋 모델링하고 더 강한 예측력을 위해서는 필요.
+        - 인공신경망은 데이터 형태에 맞춰 적용하는 점에서 유연하고, 지도학습문제에 사용할만 하다.
+```python
+from sklearn.neural_network import MLPClassifier
+model = MLPClassifier()
+model.fit(X, Y)
+from sklearn.neural_network import MLPRegressor
+model = MLPRegressor()
+model.fit(X, Y)
+```
 ### 모델 성능 (p.95)
 1. 과적합과 과소적합
 
