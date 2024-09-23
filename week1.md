@@ -91,7 +91,45 @@ model = ARIMA(endog=Y_train, order=[1, 0, 0])
         - X(t)는 t 시점 입력, O(t)는 t 시점 출력, S(t)는 t시점 은닉층. 이것은 망의 기억 저장소로, 이전 은닉층과 현 시점에서의 입력에 기반해서 계산함.
         - RNN 주요 특성은 이 은닉층으로, 이 층 순서에 대한 정보를 저장하고 필요시 이용함.
 - 장단기 메모리LSTM
-    - LNN의 한 종류로 장기 의존 문제 해결을 위해 설계됨.
+    - LNN의 한 종류로 장기 의존 문제 해결을 위해 설계됨. 오랜 기간동안 정보를 기억한다.
+    - 이 모델은 셀의 집합으로 되어 있고, 각 셀은 데이터 순서를 기억.
+    - 데이터 흐름을 감지하고 저장함.
+    - 셀은 과거 모듈을 현재 모듈과 연결시켜 정보를 과거 시간에서 현재 시간으로 전달함.
+    - 각 셀은 gate게이트가 있어서 다음 셀로의 전달 시 데이터를 제거, 여과, 추가할 수 있음.
+    - 인공신경망층을 기반으로 한 게이트를 이용해 셀로 전달하는 데이터를 통과시키거나 제거할 수 있음.
+    - 각 층은 0~1 사이의 값을 가지는 수를 만들고, 이것으로 각 셀을 통과하는 데이터 양을 설명할 수 있음.
+        - 값이 0이라면 어떠한 데이터도 통과 못하고, 1이면 모든 데이터가 통과한다는 것.
+    - 셀의 상태를 통제할 목적으로 세 유형의 게이트를 가짐.
+        - 망각 게이트
+            - 0~1 사이 수 출력. 1은 완전히 기억 0은 완전히 잊어버림. 이 게이트는 과거를 잊을지 기억할지 조건적으로 결정
+        - 입력 게이트
+            - 셀에 저장할 새로운 데이터를 선택
+        - 출력 게이트
+            - 각 셀에서 무엇을 생성할지 결정. 생성되는 값은 셀 상태와 여과되고 새로 추가된 데이터를 기반으로 함.
+    - 케라스로 단 몇 줄 코드로 LSTM 신경망 모델 정의하고 훈련 가능.
+    - keras.layers에 있는 LSTM 모듈로 신경망 구현하고 X_train_LSTM 변수로 훈련함.
+    - 이 신경망은 LSTM이 50개 있는 은닉층과 하나의 값을 예측하는 출력층으로 구성됨.
+    - 학습과 구현 측면에서 LSTM은 ARIMA 모델에 비해 더 많은 미세조정 옵션을 제공함.
+    - 딥러닝 모델은 기존 시계열 모델에 비해 장점이 많지만 복잡하고 훈련하기 어렵다.
+```python
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.optimizers import SGD
+from keras.layers import LSTM
+
+def create_LSTMmodel(learn_rate=0.01, momentum = 0):
+        # 모델생성
+        model = Sequential()
+        model.add(LSTM(50, input_shape=(X_train_LSTM.shape[1], X_train_LSTM.shape[2])))
+        # 필요 시 더 많은 셀 추가
+        model.add(Dense(1))
+        optimizer = SGD(lr=learn_rate, momentum=momentum)
+        model.compile(loss='mse', optimizer='adam')
+        return model
+
+LTSMModel = create_LSTMmodel(learn_rate=0.01, momentum=0)
+LTSMModel_fit = LSTMModel.fit(X_train_LSTM, Y_train_LSTM, validation_data=(X_test_LSTM, Y_test_LSTM), epochs=330, batch_size=72, verbose=0, shuffle=False)
+```
 # 5.1.5. 지도학습 모델을 위한 시계열 데이터 수정 (p.119)
 # 5.2. 실전 문제 1: 주가 예측 (p.120)
 # 5.3. 실전 문제 2: 파생상품 가격 책정 (p.140)
