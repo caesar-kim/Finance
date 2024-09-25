@@ -183,8 +183,86 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_squared_error
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2, f_regression
+
+# 딥러닝 모델을 위한
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.optimizers import SGD
+from keras.layers import LSTM
+from keras.wrappers.scikit_learn import KerasRegressor
+
+# 시계열 모델을 위한
+from statsmodels.tsa.arima_model import ARIMA
+import statsmodels.api as sm
+
+# 데이터 준비와 시각화를 위한
+import numpy as np
+import pandas as pd
+import pandas_datareader.data as web
+from matplotlib import pyplot
+from pandas.plotting import scatter_matrix
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+from pandas.plotting import scatter_matrix
+from statsmodels.graphics.tsaplots import plot_acf
+
+# 데이터 불러오기
+stk_tickers = ['MSFT', 'IBM', 'GOOGL']
+ccy_tickers = ['DEXJPUS', 'DEXUSUK']
+idx_tickers = ['SP500', 'DJIA', 'VIXCLS']
+
+stk_data = web.DataReader(stk_tickers, 'yahoo')
+ccy_data = web.DataReader(ccy_tickers, 'fred')
+idx_data = web.DataReader(idx_tickers, 'fred')
+
+# 한 주의 거래일을 5일로 가정하고 수익 계산
+# 독립변수로는 상관자산과 다른 주기의 과거 수익 사용.
+# 상관자산으로는 IBM과 GOOGL의 5일 지연 수익, 환율(달러/엔, 파운드/달러), 인덱스(SNP, DOW, VIX)
+# 그리고 MSFT의 5일, 15일, 30일, 60일 지연 수익도 사용.
+# 5일 지연 변수는 시간을 늦추는 방법을 사용한 시계열
+return_period = 5
+Y = np.log(stk_data.loc[:, ('Adj Close', 'MSFT')]).diff(return_period).shift(-return_period)
+Y.name = Y.name[-1]+'_pred'
+
+X1 = np.log(stk_data.loc[:, ('Adj Close', ('GOOGL', 'IBM'))]).diff(return_period)
+X1.columns = X1.columns.droplevel()
+X2 = np.log(ccy_data).diff(return_period)
+X3 = np.log(idx_data).diff(return_period)
+
+X4 = pd.concat([np.log(stk_data.loc[:, ('Adj Close', 'MSFT')]).diff(i) for i in [return_period, return_period*3, return_period*6, return_period*12]], axis=1).dropna()
+X4.columns = ['MSFT_DT', 'MSFT_3DT', 'MSFT_6DT', 'MSFT_12DT']
+
+X = pd.concat([X1, X2, X3, X4], axis=1)
+
+dataset = pd.concat([Y, X], axis=1).dropna().iloc[::return_period, :]
+Y = dataset.loc[:, Y.name]
+X = dataset.loc[:, X.columns]
 ```
-- (3) 탐색적 데이터 분석
+- (3) 탐색적 데이터 분석소
+```python
+dataset.head()
+# 데이터 시각화
+# 산점도와 상관행렬 보기
+# 선형회귀, 로지스틱 회귀 같은 알고리즘은 데이터 입력 변수 간 상관관계가 높으면 성능이 낮아져서 시각화가 유용.
+correlation = dataset.corr()
+pyplot.figure(figsize=(15,15))
+pyplot.title('Correlation Matrix')
+sns.heatmap(correlation, vmax=1, square=True,annot=True,cmap='cubehelix')
+
+# 산점도로 회귀 모델의 모든 변수 간 관계를 시각화
+pyplot.figure(figsize=(15,15))
+pd.plotting.scatter_matrix(dataset,figsize=(12,12))
+pyplot.show()
+# 결과를 보니 예측변수와 특성 간 특별한 관계 없는 듯.
+
+# 3.3. 시계열 분석
+# 예측변수의 시계열을 추세와 계절성 구성요소로 재구성해본다.
+res = sm.tsa.seasonal_decompose(Y,freq=52)
+fig = res.plot()
+fig.set_figheight(8)
+fig.set_figwidth(15)
+pyplot.show()
+```
 - (4) 데이터 준비
 - (5) 모델 평가
 - (6) 모델 튜닝 및 격자 탐색
