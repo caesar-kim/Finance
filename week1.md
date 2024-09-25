@@ -131,7 +131,65 @@ LTSMModel = create_LSTMmodel(learn_rate=0.01, momentum=0)
 LTSMModel_fit = LSTMModel.fit(X_train_LSTM, Y_train_LSTM, validation_data=(X_test_LSTM, Y_test_LSTM), epochs=330, batch_size=72, verbose=0, shuffle=False)
 ```
 # 5.1.5. 지도학습 모델을 위한 시계열 데이터 수정 (p.119)
+- 시계열은 시간 지수로 정렬된 순차적 연속 수
+    - 지도학습 문제처럼 예측변수와 예측되는 변수 집합으로 재구성 가능.
+    - 이전 시간 단계를 입력 변수로, 다음 시간 단계를 출력 변수로 정해 재구성.
+    - 관측치 간 순서는 그대로, 대신 처음과 마지막 행은 X나 Y 값이 없어서 제거.
+    - Pandas의 shift() 함수 사용.
+- 다음 단계 예측을 위해 이전 시간의 값을 사용하는 것을 슬라이딩 윈도우sliding window, 시간 지연 time delay, 지연 방법 lag라고도 함.
 # 5.2. 실전 문제 1: 주가 예측 (p.120)
+- 주가 예측하기.
+    - 머신러닝은 과거 데이터 기반으로 주가 예측하는 일에 제격이다.
+    - 직전 단계 뿐 아니라 몇 단계 앞선 시점도 예측.
+    - 주가 예측에 일반적으로 유용한 특성
+        - 상관자산
+            - 경쟁자, 고객, 자본, 정책 등 다양한 것들과 상관관계.
+        - 기술지표
+            - 이동평균, 모멘텀 등
+        - 가치 분석
+            - 성과 보고서나 뉴스를 주로 사용
+    - 이 문제에서 사용할 것
+        - 다양한 머신러닝 모델과 시계열 모델
+        - 차트의 여러 종류, 즉 밀도, 상관, 산점도를 이용한 시각화
+        - 딥러닝LSTM
+        - ARIMA 모델을 위한 격자 탐색 구현
+        - 모델별 결과 해석과 잠재적 과적합, 과소적합 분석
+- (1) 문제정의
+    - MSFT의 주 단위 수익을 예측되는 변수로 사용. 무엇이 주가에 영향 주는지 이해하기 위해 가능한 많은 정보 포함.
+    - 특성 상관 자산에 집중할 것.
+    - 주식(IBM, 알파벳), 환율(달러/엔, 파운드/달러), 인덱스(SNP, 다우), 변동성 지수
+    - 야후 파이낸스와 FRED에서 가져옴.
+    - 주가를 예측하고, 시계열의 단계별 인프라와 프레임워크 시연하고, 지도 회귀 기반 모델링도 설명. 2010년부터 10년 간 일간 종가 사용.
+- (2) 시작하기 - 데이터와 파이썬 패키지 불러오기
+```python
+# 지도 회귀모델을 위한
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import ElasticNet
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import ExtraTreesRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.neural_network import MLPRegressor
+
+# 데이터 분석 및 모델 평가를 위한
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import mean_squared_error
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2, f_regression
+```
+- (3) 탐색적 데이터 분석
+- (4) 데이터 준비
+- (5) 모델 평가
+- (6) 모델 튜닝 및 격자 탐색
+- (7) 모델 확정
+- (8) 결론
 # 5.3. 실전 문제 2: 파생상품 가격 책정 (p.140)
 # 5.4. 실전 문제 3: 투자자 위험 감수 및 로보 어드바이저 (p.153)
 # 5.5. 실전 문제 4: 수익률 곡선 예측 (p.171)
