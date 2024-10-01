@@ -45,3 +45,6 @@
 [7.2. 포트폴리오 관리](https://colab.research.google.com/drive/1EUtPBACNv6InEi4Q6MH0j4zDsrfySnU2)  
 [9.1. 강화학습 기반 거래 전략](https://colab.research.google.com/drive/11vI2Cs-eoHFGBDWLJtCwRkjwhr0KoCGs)
 - 9.1.은 RAM 이슈로 작동 실패하여, 하단에 남깁니다.
+![1](https://github.com/caesar-kim/Finance/blob/main/1111.png)
+![2](https://github.com/caesar-kim/Finance/blob/main/1234.png)
+![3](https://github.com/caesar-kim/Finance/blob/main/12345.png)
