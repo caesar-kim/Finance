@@ -37,6 +37,6 @@
   - 수학적으로는 미래 보상 또는 누적 할인 보상 G를 최대화하는 것.
 
 - 실습 링크.
-[7.2. 포트폴리오 관리](https://colab.research.google.com/drive/1EUtPBACNv6InEi4Q6MH0j4zDsrfySnU2)
+[7.2. 포트폴리오 관리](https://colab.research.google.com/drive/1EUtPBACNv6InEi4Q6MH0j4zDsrfySnU2)  
 [9.1. 강화학습 기반 거래 전략](https://colab.research.google.com/drive/11vI2Cs-eoHFGBDWLJtCwRkjwhr0KoCGs)
 - 9.1.은 RAM 이슈로 작동 실패하여, 하단에 남깁니다.
