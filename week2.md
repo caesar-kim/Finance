@@ -35,6 +35,7 @@
 - 가치 함수
   - 에이전트 목표는 환경에서 동작 잘 수행하는 방법 학습하기.
   - 수학적으로는 미래 보상 또는 누적 할인 보상 G를 최대화하는 것.
+  ![ㅇㅇㅇ](https://github.com/caesar-kim/Finance/blob/main/%EA%B0%80%EC%B9%98%ED%95%A8%EC%88%98%20%EC%8B%9D.png)
 
 - 실습 링크  
 [7.2. 포트폴리오 관리](https://colab.research.google.com/drive/1EUtPBACNv6InEi4Q6MH0j4zDsrfySnU2)  
