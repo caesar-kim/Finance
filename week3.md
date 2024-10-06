@@ -22,6 +22,51 @@
   - 토큰화
     - 의미 있는 세그먼트로 분할하는 작업. 단어, 구둣점, 숫자, 특수문자 등.
     - 미리 정해진 규칙 셋을 통해 문장을 토큰 목록으로 변환.
+```python
+# 토큰화
+text = "This is a tokenize test"
+
+from nltk.tokenize import word_tokenize
+word_tokenize(text)
+
+# textblob 사용하면
+TextBlob(text).words
+
+# 불용어 제거
+text = "S&P and NASDAQ are the two most popular indices in US"
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+stop_words = set(stopwords.words('english'))  # 영어 기반 기본 불용어 집합
+text_tokens = word_tokenize(text)
+tokens_witout_sw = [word for word in text_tokens if not word in stop_words]
+print(tokens_without_sw)
+
+# 형태소 분석
+parsed_text = word_tokenize(text)
+# 형태소 초기화
+from nltk.stem.snowball import SnowballStemmer
+stemmer = SnowballStemmer('english')
+# 단어별 형태소
+[(word, stemmer.stem(word)) for I, word in enumerate(parsed_text)
+if word.lower() != stemmer.stem(parsed_text[i])]
+
+# 기본형식화
+from textblob import Word
+parsed_data = TextBlob(text).words
+[(word, word.lemmatize()) for i, word in enumerate(parsed_data) if word != parsed_data[i].lemmatize()]
+
+# 품사 태깅
+TextBlob(te
+```
+  - 불용어 제거
+    - 매우 일반적인 단어는 종종 제외하는데 이를 불용어라고.
+  - 형태소 분석
+    - 변형된(또는 파생된) 단어를 어간, 어기, 어근 형식으로 줄이는 과정. ~~s, ~~ing, ~~ed, ~~ization 같은 것들을 모두 ~~으로.x
+  - 기본형식화
+    - 형태소 분석을 약간 변형한 것. 형태소 분석은 종종 실재하지 않는 단어도 생성. 기본형은 실제 단어이다. ran도 run으로 바꿀 수 있다.
+  - 품사 태깅part of speech PoS
+    - 문법 범주에 토큰 할당하는 과정. 단어가 사용되는 방식을 나타내는 언어 신호를 제공하므로 매우 유용.
+    - 역사적으로 히든 마코프 모델로 태거 만들었으나 최근에는 인공신경망도 활용.
 ### 10.3. 실전 문제1: NLP 및 감정 분석 기반 거래 전략
 ### 10.4. 실전 문제2: 챗봇 - 디지털 어시스턴트
 ### 10.5. 실전 문제3: 문서 요약
