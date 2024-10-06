@@ -56,7 +56,9 @@ parsed_data = TextBlob(text).words
 [(word, word.lemmatize()) for i, word in enumerate(parsed_data) if word != parsed_data[i].lemmatize()]
 
 # 품사 태깅
-TextBlob(te
+TextBlob(text).tags
+
+# 명명 개체 인식
 ```
   - 불용어 제거
     - 매우 일반적인 단어는 종종 제외하는데 이를 불용어라고.
